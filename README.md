@@ -1,8 +1,8 @@
 <div align="center">
 
-# Ser Salud Logistic Dashboard - Clinical Supply Management
+# Uni - ventory Logistic Dashboard - University Information Management
 
-<img src="https://medicamia.com.mx/wp-content/uploads/2024/08/fisioterapia.jpg" alt="physicalUse" width="400"/>
+<img src="https://www.universidadesecuador.com/assets/images/universidades-privadas.jpg" alt="physicalUse" width="400"/>
 
 </div>
 
@@ -37,7 +37,7 @@ As part of the project's continuous improvement lifecycle, the following feature
 
 <div align="center">
 
-<img src="https://viday.es/wp-content/uploads/2023/08/header-1-768x513.jpg" alt="physicalApp" width="400"/>
+<img src="https://media.elcomercio.com/wp-content/uploads/2022/06/becasuniversidad-700x417-1.jpg" alt="physicalApp" width="400"/>
 
 </div>
 
