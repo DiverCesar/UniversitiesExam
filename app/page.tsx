@@ -147,10 +147,10 @@ export default function LogisticsDashboard() {
     <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
     <div>
     <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400">
-    Ser Salud
+    Uni - ventory
     </h1>
     <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1 uppercase tracking-widest">
-    Logistics & Supply Management
+    Logistics & Information Management
     </p>
     </div>
     </header>
