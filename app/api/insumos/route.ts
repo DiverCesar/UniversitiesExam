@@ -9,7 +9,7 @@ const prisma = new PrismaClient({ adapter });
 
 export async function GET() {
     try {
-        const universities = await prisma.university.findMany({ orderBy: { national_ranking: 'desc' } });
+        const universities = await prisma.university.findMany({ orderBy: { national_ranking: 'asc' } });
         return NextResponse.json(universities);
     } catch (error: any) {
         console.error("GET Error:", error);
