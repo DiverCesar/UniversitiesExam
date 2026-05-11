@@ -7,9 +7,9 @@ type University = {
   university_name: string;
   rector_name: string;
   university_type: string;
-  foundation_year: number;
-  total_degree_courses: number;
-  national_ranking: number;
+  foundation_year: number | string;
+  total_degree_courses: number | string;
+  national_ranking: number | string;
   mission: string;
   vision: string;
 };
@@ -21,9 +21,9 @@ export default function UniversityDashboard() {
   const [uName, setUName] = useState('');
   const [rName, setRName] = useState('');
   const [uType, setUType] = useState('PUBLIC');
-  const [uYear, setUYear] = useState(0);
-  const [uCourses, setUCourses] = useState(0);
-  const [uRanking, setURanking] = useState(0);
+  const [uYear, setUYear] = useState<number | string>('');
+  const [uCourses, setUCourses] = useState<number | string>('');
+  const [uRanking, setURanking] = useState<number | string>('');
   const [uMission, setUMission] = useState('');
   const [uVision, setUVision] = useState('');
 
@@ -53,15 +53,15 @@ export default function UniversityDashboard() {
       body: JSON.stringify({
         university_name: uName,
         rector_name: rName,
-        foundation_year: uYear,
+        foundation_year: Number(uYear) || 0,
         university_type: uType,
-        total_degree_courses: uCourses,
+        total_degree_courses: Number(uCourses) || 0,
         mission: uMission,
         vision: uVision,
-        national_ranking: uRanking
+        national_ranking: Number(uRanking) || 0
       }),
     });
-    setUName(''); setRName(''); setUType('PUBLIC'); setUYear(0); setUCourses(0); setURanking(0); setUMission(''); setUVision('');
+    setUName(''); setRName(''); setUType('PUBLIC'); setUYear(''); setUCourses(''); setURanking(''); setUMission(''); setUVision('');
     fetchItems();
   };
 
@@ -72,7 +72,12 @@ export default function UniversityDashboard() {
     await fetch('/api/insumos', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(editingItem),
+      body: JSON.stringify({
+        ...editingItem,
+        foundation_year: Number(editingItem.foundation_year) || 0,
+        total_degree_courses: Number(editingItem.total_degree_courses) || 0,
+        national_ranking: Number(editingItem.national_ranking) || 0
+      }),
     });
     setEditingItem(null);
     fetchItems();
@@ -111,19 +116,22 @@ export default function UniversityDashboard() {
               </div>
               <div>
                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Type</label>
-                <input type="text" value={editingItem.university_type} onChange={e => setEditingItem({...editingItem, university_type: e.target.value})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
+                <select value={editingItem.university_type} onChange={e => setEditingItem({...editingItem, university_type: e.target.value})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white appearance-none cursor-pointer" required>
+                  <option value="PUBLIC">Public</option>
+                  <option value="PRIVATE">Private</option>
+                </select>
               </div>
               <div>
                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Foundation Year</label>
-                <input type="number" value={editingItem.foundation_year} onChange={e => setEditingItem({...editingItem, foundation_year: Number(e.target.value)})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
+                <input type="number" value={editingItem.foundation_year} onChange={e => setEditingItem({...editingItem, foundation_year: e.target.value === '' ? '' : Number(e.target.value)})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
               </div>
               <div>
                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Degree Courses</label>
-                <input type="number" value={editingItem.total_degree_courses} onChange={e => setEditingItem({...editingItem, total_degree_courses: Number(e.target.value)})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
+                <input type="number" value={editingItem.total_degree_courses} onChange={e => setEditingItem({...editingItem, total_degree_courses: e.target.value === '' ? '' : Number(e.target.value)})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
               </div>
               <div className="md:col-span-2">
                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Ranking</label>
-                <input type="number" value={editingItem.national_ranking} onChange={e => setEditingItem({...editingItem, national_ranking: Number(e.target.value)})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
+                <input type="number" value={editingItem.national_ranking} onChange={e => setEditingItem({...editingItem, national_ranking: e.target.value === '' ? '' : Number(e.target.value)})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
               </div>
               <div className="md:col-span-2">
                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Mission</label>
@@ -166,19 +174,22 @@ export default function UniversityDashboard() {
             </div>
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Type</label>
-              <input type="text" value={uType} onChange={e => setUType(e.target.value)} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
+              <select value={uType} onChange={e => setUType(e.target.value)} className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white appearance-none cursor-pointer" required>
+                <option value="PUBLIC">Public</option>
+                <option value="PRIVATE">Private</option>
+              </select>
             </div>
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Foundation Year</label>
-              <input type="number" value={uYear} onChange={e => setUYear(Number(e.target.value))} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
+              <input type="number" value={uYear} onChange={e => setUYear(e.target.value === '' ? '' : Number(e.target.value))} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
             </div>
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Degree Courses</label>
-              <input type="number" value={uCourses} onChange={e => setUCourses(Number(e.target.value))} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
+              <input type="number" value={uCourses} onChange={e => setUCourses(e.target.value === '' ? '' : Number(e.target.value))} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
             </div>
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ranking</label>
-              <input type="number" value={uRanking} onChange={e => setURanking(Number(e.target.value))} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
+              <input type="number" value={uRanking} onChange={e => setURanking(e.target.value === '' ? '' : Number(e.target.value))} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
             </div>
             <div className="md:col-span-3 space-y-1">
               <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Mission</label>
@@ -218,7 +229,7 @@ export default function UniversityDashboard() {
                   </div>
                   <div className="flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 p-2 rounded-lg">
                     <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Type</span>
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{item.university_type}</span>
+                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{item.university_type === 'PUBLIC' ? 'Public' : 'Private'}</span>
                   </div>
                   <div className="flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 p-2 rounded-lg">
                     <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Founded</span>
