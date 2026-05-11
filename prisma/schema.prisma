@@ -11,17 +11,6 @@ datasource db {
   provider = "postgresql"
 }
 
-model Insumo {
-  id                String   @id @default(cuid())
-  nombre            String
-  tipo              String
-  horas_uso         Int      @default(0)
-  fecha_calibracion String?
-  stock             Int      @default(0)
-  estado            String   @default("IN_USE")
-  creado_en         DateTime @default(now())
-}
-
 model University {
   university_id        String  @id @default(uuid())
   university_name      String
