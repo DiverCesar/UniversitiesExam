@@ -38,7 +38,7 @@ export default function UniversityDashboard() {
   }, [isDarkMode]);
 
   const fetchItems = async () => {
-    const response = await fetch('/api/universities');
+    const response = await fetch('/api/insumos');
     const data = await response.json();
     setItems(data);
   };
@@ -47,7 +47,7 @@ export default function UniversityDashboard() {
 
   const submitData = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch('/api/universities', {
+    await fetch('/api/insumos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -69,7 +69,7 @@ export default function UniversityDashboard() {
     e.preventDefault();
     if (!editingItem) return;
 
-    await fetch('/api/universities', {
+    await fetch('/api/insumos', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(editingItem),
@@ -92,30 +92,49 @@ export default function UniversityDashboard() {
       </button>
 
       {editingItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-lg border border-slate-200 dark:border-slate-700 overflow-hidden transform transition-all">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform transition-all mt-10 mb-10">
             <div className="bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-4 flex justify-between items-center">
               <h3 className="text-white font-bold text-lg">Edit University</h3>
               <button onClick={() => setEditingItem(null)} className="text-white hover:text-cyan-200">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
-            <form onSubmit={handleUpdate} className="p-6 space-y-4">
-              <div>
+            <form onSubmit={handleUpdate} className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2">
                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">University Name</label>
-                <input type="text" value={editingItem.university_name} onChange={e => setEditingItem({...editingItem, university_name: e.target.value})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none text-slate-800 dark:text-white" required />
+                <input type="text" value={editingItem.university_name} onChange={e => setEditingItem({...editingItem, university_name: e.target.value})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Rector Name</label>
-                  <input type="text" value={editingItem.rector_name} onChange={e => setEditingItem({...editingItem, rector_name: e.target.value})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none text-slate-800 dark:text-white" required />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Ranking</label>
-                  <input type="number" value={editingItem.national_ranking} onChange={e => setEditingItem({...editingItem, national_ranking: Number(e.target.value)})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none text-slate-800 dark:text-white" required />
-                </div>
+              <div>
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Rector Name</label>
+                <input type="text" value={editingItem.rector_name} onChange={e => setEditingItem({...editingItem, rector_name: e.target.value})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
               </div>
-              <div className="pt-4 flex justify-end gap-3">
+              <div>
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Type</label>
+                <input type="text" value={editingItem.university_type} onChange={e => setEditingItem({...editingItem, university_type: e.target.value})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Foundation Year</label>
+                <input type="number" value={editingItem.foundation_year} onChange={e => setEditingItem({...editingItem, foundation_year: Number(e.target.value)})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Degree Courses</label>
+                <input type="number" value={editingItem.total_degree_courses} onChange={e => setEditingItem({...editingItem, total_degree_courses: Number(e.target.value)})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
+              </div>
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Ranking</label>
+                <input type="number" value={editingItem.national_ranking} onChange={e => setEditingItem({...editingItem, national_ranking: Number(e.target.value)})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" required />
+              </div>
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Mission</label>
+                <textarea value={editingItem.mission} onChange={e => setEditingItem({...editingItem, mission: e.target.value})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" rows={2}></textarea>
+              </div>
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Vision</label>
+                <textarea value={editingItem.vision} onChange={e => setEditingItem({...editingItem, vision: e.target.value})} className="w-full p-3 mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" rows={2}></textarea>
+              </div>
+              
+              <div className="md:col-span-2 pt-4 flex justify-end gap-3">
                 <button type="button" onClick={() => setEditingItem(null)} className="px-5 py-2.5 text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-colors">Cancel</button>
                 <button type="submit" className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all">Save Changes</button>
               </div>
@@ -136,24 +155,41 @@ export default function UniversityDashboard() {
           <div className="bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-4 flex justify-between items-center">
             <h2 className="text-white font-semibold text-lg tracking-wide">Register New University</h2>
           </div>
-          <form onSubmit={submitData} className="p-6 grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
+          <form onSubmit={submitData} className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name</label>
               <input type="text" value={uName} onChange={e => setUName(e.target.value)} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
             </div>
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Rector</label>
-              <input type="text" value={rName} onChange={e => setRName(e.target.value)} className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
+              <input type="text" value={rName} onChange={e => setRName(e.target.value)} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Type</label>
+              <input type="text" value={uType} onChange={e => setUType(e.target.value)} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
             </div>
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Foundation Year</label>
-              <input type="number" value={uYear} onChange={e => setUYear(Number(e.target.value))} className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
+              <input type="number" value={uYear} onChange={e => setUYear(Number(e.target.value))} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Degree Courses</label>
+              <input type="number" value={uCourses} onChange={e => setUCourses(Number(e.target.value))} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
             </div>
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ranking</label>
-              <input type="number" value={uRanking} onChange={e => setURanking(Number(e.target.value))} className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
+              <input type="number" value={uRanking} onChange={e => setURanking(Number(e.target.value))} required className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" />
             </div>
-            <div className="md:col-span-4 flex justify-end">
+            <div className="md:col-span-3 space-y-1">
+              <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Mission</label>
+              <textarea value={uMission} onChange={e => setUMission(e.target.value)} className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" rows={2}></textarea>
+            </div>
+            <div className="md:col-span-3 space-y-1">
+              <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Vision</label>
+              <textarea value={uVision} onChange={e => setUVision(e.target.value)} className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none dark:text-white" rows={2}></textarea>
+            </div>
+
+            <div className="md:col-span-3 flex justify-end mt-2">
               <button type="submit" className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold rounded-xl shadow-lg shadow-cyan-500/30 transform hover:-translate-y-0.5 transition-all duration-200 active:scale-95">Save</button>
             </div>
           </form>
@@ -181,15 +217,22 @@ export default function UniversityDashboard() {
                     <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{item.rector_name}</span>
                   </div>
                   <div className="flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 p-2 rounded-lg">
+                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Type</span>
+                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{item.university_type}</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 p-2 rounded-lg">
                     <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Founded</span>
                     <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{item.foundation_year}</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 p-2 rounded-lg">
+                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Courses</span>
+                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{item.total_degree_courses}</span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </section>
-
       </div>
     </main>
   );
