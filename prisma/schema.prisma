@@ -12,7 +12,7 @@ datasource db {
 }
 
 model University {
-  university_id        String  @id @default(uuid())
+  university_id        Int     @id @default(autoincrement())
   university_name      String
   rector_name          String
   university_type      String

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 type University = {
-  university_id: string;
+  university_id: number;
   university_name: string;
   rector_name: string;
   university_type: string;
