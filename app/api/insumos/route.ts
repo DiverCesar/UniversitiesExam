@@ -20,18 +20,22 @@ export async function GET() {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
+        const dataToInsert: any = {
+            university_id: Math.floor(Math.random() * 2000000000), 
+            university_name: body.university_name || "Sin Nombre",
+            rector_name: body.rector_name || "Sin Rector",
+            foundation_year: Number(body.foundation_year) || 0,
+            university_type: body.university_type || "PUBLIC",
+            total_degree_courses: Number(body.total_degree_courses) || 0,
+            mission: body.mission || "Sin Misión",
+            vision: body.vision || "Sin Visión",
+            national_ranking: Number(body.national_ranking) || 0
+        };
+
         const nuevo = await prisma.university.create({
-            data: {
-                university_name: body.university_name,
-                rector_name: body.rector_name,
-                foundation_year: Number(body.foundation_year),
-                university_type: body.university_type,
-                total_degree_courses: Number(body.total_degree_courses),
-                mission: body.mission || 'Mission: ',
-                vision: body.vision || 'Vision: ',
-                national_ranking: Number(body.national_ranking) || 0
-            }
+            data: dataToInsert
         });
+        
         return NextResponse.json(nuevo);
     } catch (error: any) {
         console.error("POST Error:", error);
