@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
     const body = await req.json();
     const actualizado = await prisma.university.update({
-        where: { university_id: body.id },
+        where: { university_id: body.university_id },
         data: {
             university_name: body.university_name,
             rector_name: body.rector_name,

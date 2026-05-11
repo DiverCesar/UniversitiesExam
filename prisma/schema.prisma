@@ -21,3 +21,15 @@ model Insumo {
   estado            String   @default("IN_USE")
   creado_en         DateTime @default(now())
 }
+
+model University {
+  university_id        String  @id @default(uuid())
+  university_name      String
+  rector_name          String
+  university_type      String
+  foundation_year      Int
+  total_degree_courses Int
+  mission              String
+  vision               String
+  national_ranking     Int
+}
